@@ -15,5 +15,7 @@ Comparison in the same level of prameters: https://pan.baidu.com/s/1jsiaxOpWaCg9
 Comparison in the same level of flops: 
 
 2. Compare transformer and CNN at the same level of flops:
+```Shell
 python main.py --cuda [device] --model hybrid
 python main.py --cuda [device] --model CNN --net ResNet152 --depth 6 --heads 16
+```
