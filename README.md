@@ -12,10 +12,10 @@ python main.py --cuda [device] --model CNN
 ```
 Pre-trained models
 Comparison in the same level of prameters: https://pan.baidu.com/s/1jsiaxOpWaCg9mwPM4P14Qw , extract code: 3j82
-Comparison in the same level of flops: 
+Comparison in the same level of flops: https://pan.baidu.com/s/1NmAvwvPQDScmYOHbRgy4iw , extract code: zpra
 
 2. Compare transformer and CNN at the same level of flops:
 ```Shell
-python main.py --cuda [device] --model hybrid
-python main.py --cuda [device] --model CNN --net ResNet152 --depth 6 --heads 16
+python main.py --cuda [device] --model CNN --net ResNet152
+python main.py --cuda [device] --model hybrid --depth 6 --heads 16
 ```
