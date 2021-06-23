@@ -16,14 +16,18 @@ from models import *
 from models.hybrid import *
 from utils import progress_bar
 from vit_pytorch import ViT
+from thop import profile
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR10 Training')
 parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true',
                     help='resume from checkpoint')
-parser.add_argument('--cuda', default=5, type=int, help='gpu id')
+parser.add_argument('--cuda', default=3, type=int, help='gpu id')
 parser.add_argument('--batch_size', default=256, type=int)
 parser.add_argument('--model', default='hybrid', type=str)
+parser.add_argument('--net', default='ResNet50', choices=['ResNet50','ResNet152'], type=str, help='CNN model')
+parser.add_argument('--depth', default=4, type=int)
+parser.add_argument('--heads', default=8, type=int)
 args = parser.parse_args()
 
 device = 'cuda:{}'.format(args.cuda) if torch.cuda.is_available() else 'cpu'
@@ -60,9 +64,12 @@ classes = ('plane', 'car', 'bird', 'cat', 'deer',
 
 # Model
 print('==> Building model --', args.model)
-
+inputs=torch.randn(1, 3, 32, 32)
 if args.model == 'hybrid':
-    net = hybrid(n_blocks=[2,2,1], patch_size=1, depth=4, head=8)
+    net = hybrid(n_blocks=[2,2,1], patch_size=1, depth=args.depth, head=args.heads)
+    flops1, params1 = profile(net, (inputs,),verbose=False)
+    print('Total parameters: ',params1)
+    print('Total flops: ',flops1+net.flops())
 elif args.model == 'CNN':
     # net = VGG('VGG19')
     # net = ResNet18()
@@ -79,10 +86,17 @@ elif args.model == 'CNN':
     # net = EfficientNetB0()
     # net = RegNetX_200MF()
     # net = SimpleDLA()
-    net = ResNet50()
+    if args.net == 'ResNet152':
+        net = ResNet152()
+    else:
+        net = ResNet50()
+    flops1, params1 = profile(net, (inputs,),verbose=False)
+    print('Total parameters: ',params1)
+    print('Total flops: ',flops1)
 
-total_params = sum(p.numel() for p in net.parameters() if p.requires_grad)
-print('Total parameters: ', total_params)
+# total_params = sum(p.numel() for p in net.parameters() if p.requires_grad)
+
+# print('Total parameters: ', total_params)
 print(net)
 net = net.to(device)
 
