@@ -11,8 +11,8 @@ python main.py --cuda [device] --model hybrid
 python main.py --cuda [device] --model CNN
 ```
 Pre-trained models \
-Comparison in the same level of prameters: https://pan.baidu.com/s/1jsiaxOpWaCg9mwPM4P14Qw , extract code: 3j82
-Comparison in the same level of flops: https://pan.baidu.com/s/1NmAvwvPQDScmYOHbRgy4iw , extract code: zpra
+Comparison at the same level of prameters: https://pan.baidu.com/s/1jsiaxOpWaCg9mwPM4P14Qw , extract code: 3j82 \
+Comparison at the same level of flops: https://pan.baidu.com/s/1NmAvwvPQDScmYOHbRgy4iw , extract code: zpra
 
 2. Compare transformer and CNN at the same level of flops:
 ```Shell
